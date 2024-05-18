@@ -231,5 +231,5 @@ def test_split_pipe_comments():  # issue 722
     """
     formatted = sqlparse.format(stmnts, strip_comments=True)
     formatted_split = sqlparse.split(formatted)
-    assert len(formatted_split) == 1
-    f"Expected 1 statement, but got {len(formatted_split)}"
+    assert len(formatted_split) == 1, f"""Expected 1 statement,
+    but got {len(formatted_split)}"""
