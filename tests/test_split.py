@@ -203,3 +203,32 @@ def test_split_strip_semicolon_procedure(load_file):
 def test_split_go(sql, num):  # issue762
     stmts = sqlparse.split(sql)
     assert len(stmts) == num
+
+
+def test_special_chars(): # issue 753
+    sql="""
+        update foo set bar="
+        " ( " + foo + " == null || " + bar + " == \"\" ) "
+        "
+        where id =1;
+        update foo set bar="
+        " ( " + foo + " == null || " + bar + " == \"\" ) "
+        "
+        where id =2;
+        update foo set bar="
+        " ( " + foo + " == null || " + bar + " == \"\" ) "
+        "
+        where id =3;
+    """
+    stmts = sqlparse.split(sql)
+    assert len(stmts) == 3
+
+
+def test_split_pipe_comments(): # issue 722
+    stmnts = """SELECT foo || bar ||--;
+    foobar;
+    """
+    formatted = sqlparse.format(stmnts, strip_comments=True)
+    formatted_split = sqlparse.split(formatted)
+    assert len(formatted_split) == 1, f"Expected 1 statement, but got {len(formatted_split)}"
+
