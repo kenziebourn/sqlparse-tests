@@ -195,6 +195,7 @@ def test_split_strip_semicolon_procedure(load_file):
     assert stmts[0].endswith('end')
     assert stmts[1].endswith('end')
 
+
 @pytest.mark.parametrize('sql, num', [
     ('USE foo;\nGO\nSELECT 1;\nGO', 4),
     ('SELECT * FROM foo;\nGO', 2),
@@ -205,8 +206,8 @@ def test_split_go(sql, num):  # issue762
     assert len(stmts) == num
 
 
-def test_special_chars(): # issue 753
-    sql="""
+def test_special_chars():  # issue 753
+    sql = """
         update foo set bar="
         " ( " + foo + " == null || " + bar + " == \"\" ) "
         "
@@ -224,11 +225,11 @@ def test_special_chars(): # issue 753
     assert len(stmts) == 3
 
 
-def test_split_pipe_comments(): # issue 722
+def test_split_pipe_comments():  # issue 722
     stmnts = """SELECT foo || bar ||--;
     foobar;
     """
     formatted = sqlparse.format(stmnts, strip_comments=True)
     formatted_split = sqlparse.split(formatted)
-    assert len(formatted_split) == 1, f"Expected 1 statement, but got {len(formatted_split)}"
-
+    assert len(formatted_split) == 1
+    f"Expected 1 statement, but got {len(formatted_split)}"
